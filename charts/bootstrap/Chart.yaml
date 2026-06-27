@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bootstrap
+description: Bootstrap Helm chart for Argo CD, external secrets, and child applications
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

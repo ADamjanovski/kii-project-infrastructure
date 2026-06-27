@@ -1,0 +1,22 @@
+{{- if .Values.ecommerceApp.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{ .Values.global.infrastructureRepoUrl | quote }}
+    targetRevision: {{ .Values.global.infrastructureRepoRevision | quote }}
+    path: {{ .Values.ecommerceApp.chartPath | quote }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.global.appNamespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}

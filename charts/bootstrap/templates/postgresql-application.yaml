@@ -1,0 +1,43 @@
+{{- if .Values.postgresqlApp.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: postgresql
+    targetRevision: {{ .Values.postgresqlApp.bitnamiChartVersion | quote }}
+    helm:
+      values: |
+        fullnameOverride: postgres
+        architecture: replication
+        auth:
+          enablePostgresUser: false
+          username: {{ .Values.postgresqlApp.username }}
+          database: {{ .Values.postgresqlApp.database }}
+          existingSecret: db-secrets
+          secretKeys:
+            userPasswordKey: POSTGRES_PASSWORD
+            replicationPasswordKey: POSTGRES_PASSWORD
+        primary:
+          podAntiAffinityPreset: hard
+          persistence:
+            enabled: true
+            size: {{ .Values.postgresqlApp.primaryStorage }}
+        readReplicas:
+          replicaCount: {{ .Values.postgresqlApp.replicaCount }}
+          podAntiAffinityPreset: hard
+          persistence:
+            enabled: true
+            size: {{ .Values.postgresqlApp.primaryStorage }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.global.appNamespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

@@ -1,0 +1,19 @@
+# Assumption: this chart is installed by Argo CD into the argocd namespace and bootstraps the ecommerce namespace, external secrets, and child Argo CD applications.
+global:
+  infrastructureRepoUrl: https://github.com/ADamjanovski/kii-project-infrastructure.git
+  infrastructureRepoRevision: main
+  awsRegion: eu-central-1
+  awsSecretName: prod/ecommerce/my-secrets
+  appNamespace: ecommerce
+
+ecommerceApp:
+  enabled: true
+  chartPath: charts/ecommerce
+
+postgresqlApp:
+  enabled: true
+  bitnamiChartVersion: 15.5.38
+  username: admin
+  database: ecommerce
+  primaryStorage: 1Gi
+  replicaCount: 2
