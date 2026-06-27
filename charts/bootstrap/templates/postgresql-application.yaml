@@ -22,6 +22,8 @@ spec:
           secretKeys:
             userPasswordKey: POSTGRES_PASSWORD
             replicationPasswordKey: POSTGRES_PASSWORD
+        image:
+          tag: latest
         primary:
           podAntiAffinityPreset: hard
           persistence:
