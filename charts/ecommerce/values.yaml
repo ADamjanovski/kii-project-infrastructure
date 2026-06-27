@@ -33,7 +33,7 @@ config:
     springProfilesActive: prod
     springApplicationName: backend
     springCacheType: redis
-    postgresHost: postgres
+    postgresHost: postgres-primary
     postgresPort: "5432"
     redisHost: redis
     redisPort: "6379"
