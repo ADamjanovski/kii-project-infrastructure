@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/ADamjanovski/kii-project-infrastructure.git
-    targetRevision: main
+    targetRevision: master
     path: charts/ecommerce
   destination:
     server: https://kubernetes.default.svc
