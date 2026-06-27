@@ -1,0 +1,39 @@
+# Assumption: PostgreSQL is deployed through the Bitnami Helm chart in replication mode with one primary and two read replicas spread across worker nodes.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: postgresql
+    targetRevision: 15.5.38
+    helm:
+      values: |
+        fullnameOverride: postgres
+        architecture: replication
+        auth:
+          enablePostgresUser: false
+          username: admin
+          database: ecommerce
+          existingSecret: db-secrets
+          secretKeys:
+            userPasswordKey: POSTGRES_PASSWORD
+            replicationPasswordKey: POSTGRES_PASSWORD
+        primary:
+          podAntiAffinityPreset: hard
+          persistence:
+            enabled: true
+            size: 5Gi
+        readReplicas:
+          replicaCount: 2
+          podAntiAffinityPreset: hard
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecommerce
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,48 @@
+# Assumption: the ecommerce Helm chart is deployed by Argo CD into the ecommerce namespace and the ExternalSecret-generated Secrets already exist there.
+backend:
+  replicaCount: 3
+  image:
+    repository: adamjanovski/ecommerce-backend
+    tag: latest
+    pullPolicy: Always
+  service:
+    port: 8080
+
+frontend:
+  replicaCount: 3
+  image:
+    repository: adamjanovski/ecommerce-frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    port: 80
+
+redis:
+  enabled: true
+  image:
+    repository: redis
+    tag: 7-alpine
+    pullPolicy: IfNotPresent
+  service:
+    port: 6379
+  persistence:
+    size: 1Gi
+
+config:
+  backend:
+    springProfilesActive: prod
+    springApplicationName: backend
+    springCacheType: redis
+    postgresHost: postgres
+    postgresPort: "5432"
+    redisHost: redis
+    redisPort: "6379"
+    geminiApiUrl: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent
+  frontend:
+    viteApiUrl: https://ecommerce.local/api
+
+ingress:
+  enabled: true
+  className: nginx
+  host: ecommerce.local
+  tlsSecretName: ecommerce-tls

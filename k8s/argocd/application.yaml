@@ -1,0 +1,21 @@
+# Assumption: Argo CD is installed in the argocd namespace and watches the Helm chart in the infrastructure repository for the ecommerce application.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ADamjanovski/kii-project-infrastructure.git
+    targetRevision: main
+    path: charts/ecommerce
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecommerce
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
