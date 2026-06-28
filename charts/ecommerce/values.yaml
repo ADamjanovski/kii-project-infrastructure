@@ -3,7 +3,7 @@ backend:
   replicaCount: 3
   image:
     repository: adamjanovski/ecommerce-backend
-    tag: "13920e1f6da660d95ec73c6ef4b2a920bd5b36a8"
+    tag: "045b28b40951bed8f9cbca092135ec85bd2aabe9"
     pullPolicy: Always
   service:
     port: 8080
@@ -12,7 +12,7 @@ frontend:
   replicaCount: 3
   image:
     repository: adamjanovski/ecommerce-frontend
-    tag: "13920e1f6da660d95ec73c6ef4b2a920bd5b36a8"
+    tag: "045b28b40951bed8f9cbca092135ec85bd2aabe9"
     pullPolicy: Always
   service:
     port: 80
