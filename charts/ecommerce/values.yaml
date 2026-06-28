@@ -43,6 +43,6 @@ config:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
   host: ecommerce.local
   tlsSecretName: ecommerce-tls
