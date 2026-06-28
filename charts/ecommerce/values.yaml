@@ -30,7 +30,7 @@ redis:
 
 config:
   backend:
-    springProfilesActive: prod
+    springProfilesActive: dev
     springApplicationName: backend
     springCacheType: redis
     postgresHost: postgres-primary
